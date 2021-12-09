@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_REPOSITORIES = gql`
   query GetRepos($userQuery: String!) {
@@ -23,3 +23,34 @@ const GET_REPOSITORIES = gql`
     }
   }
 `;
+interface RepositoriesProps {
+  userQuery: string;
+}
+const Repositories: React.FC<RepositoriesProps> = ({ userQuery }) => {
+  const { loading, error, data } = useQuery(GET_REPOSITORIES, {
+    variables: { userQuery },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  const {
+    user: {
+      repositories: { nodes: repos },
+    },
+  } = data;
+
+  return (
+    <div>
+      {repos.map((repo: any) => (
+        <div key={repo.name}>
+          <h3>{repo.name}</h3>
+          <p>Updated: {repo.updatedAt}</p>
+          <p>Language: {repo.primaryLanguage?.name}</p>
+          <p>Languages: {repo.languages.nodes.map((lang: any) => lang.name).join(", ")}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+export default Repositories;

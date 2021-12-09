@@ -5,8 +5,9 @@ import "./App.css";
 import { BrowserRouter, Route, Router } from "react-router-dom";
 
 import "./constants/routes";
-import { USERS } from "./constants/routes";
+import { USERS, USER_REPOS } from "./constants/routes";
 import Users from "./pages/Users/Users";
+import Repositories from "./pages/Repos/Repositories";
 const App: React.FC<any> = (props) => {
   const [search, setSearch] = React.useState("");
   const [query, setQuery] = React.useState("");
@@ -33,6 +34,13 @@ const App: React.FC<any> = (props) => {
           }}
         />
       </div>
+      <Route
+        exact
+        path={USER_REPOS}
+        component={() => {
+          return <Repositories userQuery={""} />;
+        }}
+      />
     </BrowserRouter>
   );
 };

@@ -1,6 +1,7 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
-
+import { Link } from "react-router-dom";
+import { USER_REPOS } from "../../constants/routes";
 const GET_USERS = gql`
   query SearchUsers($userQuery: String!) {
     search(query: $userQuery, type: USER, first: 20) {
@@ -62,15 +63,17 @@ const Users: React.FC<UsersProps> = ({ query }) => {
         {loadingUsers && <p>Loading...</p>}
         {userData &&
           userData.search.edges.map((user: any) => (
-            <li key={user.node.login} className="col-span-2 col-2 row-2 flex flex-grid text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-              <div className="flex-1 flex flex-col p-8">
-                <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={user.node.avatarUrl} alt="" />
-                <h3 className="mt-6 text-gray-900 text-sm font-medium">{user.node.login}</h3>
-                <dl className="mt-1 flex-grow flex flex-col justify-between">
-                  <dd className="text-gray-500 text-sm">{user.node.login}</dd>
-                </dl>
-              </div>
-            </li>
+            <Link to={`${USER_REPOS}/?user=${user.node.login}`}>
+              <li key={user.node.login} className="col-span-2 col-2 row-2 flex flex-grid text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+                <div className="flex-1 flex flex-col p-8">
+                  <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={user.node.avatarUrl} alt="" />
+                  <h3 className="mt-6 text-gray-900 text-sm font-medium">{user.node.login}</h3>
+                  <dl className="mt-1 flex-grow flex flex-col justify-between">
+                    <dd className="text-gray-500 text-sm">{user.node.login}</dd>
+                  </dl>
+                </div>
+              </li>
+            </Link>
           ))}
       </ul>
     </div>
