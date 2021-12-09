@@ -63,7 +63,7 @@ const Users: React.FC<UsersProps> = ({ query }) => {
         {loadingUsers && <p>Loading...</p>}
         {userData &&
           userData.search.edges.map((user: any) => (
-            <Link to={`${USER_REPOS}/?user=${user.node.login}`}>
+            <Link to={`users/${user.node.login}`}>
               <li key={user.node.login} className="col-span-2 col-2 row-2 flex flex-grid text-center bg-white rounded-lg shadow divide-y divide-gray-200">
                 <div className="flex-1 flex flex-col p-8">
                   <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={user.node.avatarUrl} alt="" />
